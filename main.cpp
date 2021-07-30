@@ -9,6 +9,7 @@ extern "C" {
 #include <string>
 #include <regex>
 #include <iostream>
+#include <fstream>
 
 #if defined(PLATFORM_DESKTOP)
     #define GLSL_VERSION            330
@@ -39,13 +40,25 @@ int main()
     
     // LKG Config
     Shader lkgFragment = LoadShader(0, "./quilt.fs");
-    
     Texture2D quilt = LoadTexture("./quilt.png");
     
-    float dpi = 324.0;
+    std::ifstream config("display.cfg");
+    
     float pitch = 52.56658151511047;
+    config.ignore(256, '=');
+    config >> pitch;
     float slope = -7.145505158882189;
+    config.ignore(256, '=');
+    config >> slope;
     float center = 0.9997089252844671;
+    config.ignore(256, '=');
+    config >> center;
+    int invView = 1;
+    config.ignore(256, '=');
+    config >> invView;
+    float dpi = 324.0;
+    config.ignore(256, '=');
+    config >> dpi;
     
     int ri = 0;
     int bi = 2;
